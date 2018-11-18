@@ -4,7 +4,6 @@
   "main": "index.js",
   "repository": "https://github.com/rd825/Prosescript.git",
   "author": "Rahul Desai <rd825@georgetown.edu>",
-  "license": "All Rights Reserved",
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js"
