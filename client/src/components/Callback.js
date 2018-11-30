@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import queryString from 'query-string';
+import axios from 'axios';
 
 class Callback extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: null,
             error: false,
         }
     }
@@ -15,7 +15,7 @@ class Callback extends Component {
         if (values.error === 'access_denied') {
             this.setState({error: true});
         } else {
-            this.setState({code: values.code})
+            axios.post('http://localhost:9000/api/code', values.code)
         }
     }
 

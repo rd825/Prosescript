@@ -1,8 +1,21 @@
+require('dotenv').config();
+
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const logger = require('morgan');
+
 const server = express();
 server.use(express.json());
+server.use(helmet());
+server.use(cors());
+server.use(logger('dev'));
 
-const clientsecret = '835da83c7b32b92defab1f4184960c9efa222331'
+const clientsecret = process.env.CLIENT_SECRET;
+
+server.post('/api/code', (req, res) => {
+    console.log(req.body);
+})
 
 
 const port = process.env.PORT || 9000;
