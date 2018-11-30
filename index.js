@@ -13,8 +13,11 @@ server.use(logger('dev'));
 
 const clientsecret = process.env.CLIENT_SECRET;
 
+server.get('/', (req, res) => res.send({API: 'live'}))
+
 server.post('/api/code', (req, res) => {
     console.log(req.body);
+    res.send('Success')
 })
 
 
