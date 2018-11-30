@@ -1,21 +1,29 @@
 import React, {Component} from 'react';
+import queryString from 'query-string';
 
 class Callback extends Component {
     constructor(props) {
         super(props);
         this.state = {
             code: null,
-            error: null,
+            error: false,
         }
     }
 
     componentDidMount() {
-        console.log(this.props.location.search)
+        const values = queryString.parse(this.props.location.search)
+        if (values.error === 'access_denied') {
+            this.setState({error: true});
+        } else {
+            this.setState({code: values.code})
+        }
     }
 
     render() {
         return(
-            <h2>Success</h2>
+            <div>
+                {this.state.error === true ? <h2>Failure</h2> : <h2>Success</h2>}
+            </div>
         )
     }
 }
