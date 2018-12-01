@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const logger = require('morgan');
 const axios = require('axios');
+const bcrypt = require('bcryptjs');
 
 // server + middleware
 const server = express();
@@ -21,9 +22,8 @@ const redirect_uri = process.env.REDIRECT_URI;
 
 server.get('/', (req, res) => res.send({API: 'live'}))
 
-server.post('/api/code', (req, res) => {
+server.post('/api/oauth', (req, res) => {
     const {code} = req.body;
-    console.log(code);
     axios({
         method: 'post',
         url: 'https://api.medium.com/v1/tokens',
@@ -34,9 +34,54 @@ server.post('/api/code', (req, res) => {
         },
         data: `code=${code}&client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&redirect_uri=${redirect_uri}`
     })
-    .then(res => console.log(res))
+    .then(res => {
+        const {token_type, access_token} = res.data;
+        axios({
+            method: 'get',
+            url: 'https://api.medium.com/v1/me',
+            headers: {
+                'Authorization': `${token_type} ${access_token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Accept-Charset': 'utf-8'
+            }
+        })
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => console.log(err));
+    })
     .catch(err => console.log(err));
 })
+
+server.post('/api/create', (req, res) => {
+    axios({
+        method: 'post',
+        url: `https://api.medium.com/v1/users/${authorId}/posts`,
+        headers: {
+            'Authorization': `${token_type} ${access_token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Accept-Charset': 'utf-8'
+        },
+        data: {
+            "contentFormat": "html", // or Markdown
+            "title": "",
+            "content": "",
+            "tags": ["", "", ""],
+            "publishStatus": "public",
+            "notifyFollowers": true,
+
+        }
+    })
+    .then(res => {
+        console.log(res.data)
+    })
+    .catch(err => console.log(err));
+
+})
+
+
 
 const port = process.env.PORT || 9000;
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
