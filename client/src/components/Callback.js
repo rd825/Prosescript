@@ -18,7 +18,7 @@ class Callback extends Component {
             if (values.state !== 'opensesame') {
                 alert('Access denied');
             } else {
-                axios.post('http://localhost:9000/api/oauth', {code: values.code})
+                axios.post('http://localhost:9000/api/auth', {code: values.code})
             }
         }
     }

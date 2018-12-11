@@ -1,28 +1,25 @@
 // imports
-require('dotenv').config();
 const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const logger = require('morgan');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
+const notifier = require('mail-notifier');
 
 // server + middleware
 const server = express();
-server.use(express.json());
-server.use(helmet());
-server.use(cors());
-server.use(logger('dev'));
+const configMW = require('./config/middleware');
+configMW(server);
 
-
-// setting up env variables
+// bringing in env variables
+require('dotenv').config();
 const client_secret = process.env.CLIENT_SECRET;
 const client_id = process.env.CLIENT_ID;
 const redirect_uri = process.env.REDIRECT_URI;
 
+// API status
 server.get('/', (req, res) => res.send({API: 'live'}))
 
-server.post('/api/oauth', (req, res) => {
+// Authenticate a user on Medium via OAuth
+server.post('/api/auth', (req, res) => {
     const {code} = req.body;
     axios({
         method: 'post',
@@ -36,6 +33,7 @@ server.post('/api/oauth', (req, res) => {
     })
     .then(res => {
         const {token_type, access_token} = res.data;
+        console.log(res.data);
         axios({
             method: 'get',
             url: 'https://api.medium.com/v1/me',
@@ -47,14 +45,36 @@ server.post('/api/oauth', (req, res) => {
             }
         })
         .then(res => {
-            console.log(res.data)
+            console.log(res.data) // save to db
         })
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
 })
 
-server.post('/api/create', (req, res) => {
+/**
+ * If Date.now() <= expiresAt --> do the process for refresh token
+ * 
+ */
+
+function refresh() {
+    // get refresh_token from db
+    axios({
+        method: 'post',
+        url: 'https://api.medium.com/v1/tokens',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Accept-Charset': 'utf-8'
+        },
+        data: `refresh_token=${refresh_token}&client_id=${client_id}
+        &client_secret=${client_secret}&grant_type=refresh_token`
+    })
+    .then() // store new token in DB
+    .catch(err => console.log(err));
+}
+
+function create() {
     axios({
         method: 'post',
         url: `https://api.medium.com/v1/users/${authorId}/posts`,
@@ -78,10 +98,33 @@ server.post('/api/create', (req, res) => {
         console.log(res.data)
     })
     .catch(err => console.log(err));
+};
 
-})
+const imap = {
+    user: 'prosescriptapp@gmail.com',
+    password: process.env.IMAP_PW,
+    host: 'imap.gmail.com',
+    port: 993,
+    tls: true,// use secure connection
+    tlsOptions: { rejectUnauthorized: false }
+};
 
-
+const n = notifier(imap);
+n.on('end', () => n.start()) // session closed
+  .on('mail', mail => {
+      /**
+       * what needs to be done?
+       * check if token has expired
+       * if so, refresh
+       * if not, proceed
+       * get the sender's email address
+       * acquire the matching id, token, and token type
+       * grab the title and content
+       * put together the axios request and send it
+       */
+    
+  })
+  .start();
 
 const port = process.env.PORT || 9000;
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
