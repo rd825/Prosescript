@@ -10,6 +10,8 @@ class Callback extends Component {
         }
     }
 
+    // consider redirecting users immediately on success
+
     componentDidMount() {
         const values = queryString.parse(this.props.location.search)
         if (values.error === 'access_denied') {
