@@ -4,6 +4,8 @@ const axios = require('axios');
 const notifier = require('mail-notifier');
 const Cryptr = require('cryptr');
 const users = require('./db/userModel');
+const imap = require('./imapConfig');
+const {create, refresh} = require('./helpers');
 
 // setting up server + middleware
 const server = express();
@@ -53,13 +55,13 @@ server.post('/api/auth', (req, res) => {
                 user_id: id,
                 access_token: cryptr.encrypt(access_token),
                 refresh_token: cryptr.encrypt(refresh_token),
-                expires_at: expires_at
+                expires_at: expires_at,
             }
 
             users.getByUsername(username)
                 .then(userExists => {
                     if (userExists) {
-                        console.log({message: 'User already exists'})
+                        console.log({message: 'User already exists'});
                     } else {
                         users.insert(user)
                         .then(res => {
@@ -70,87 +72,40 @@ server.post('/api/auth', (req, res) => {
                         })
                     }
                 })
-                .catch(err => console.log({message: 'Error finding user'}))
+                .catch(err => console.log({message: 'Error finding user'}));
         })
         .catch(err => console.log({message: "User authentication error"}));
     })
     .catch(err => console.log({message: "Token exchange error"}));
 })
 
-
-// If Date.now() <= expiresAt --> do the process for refresh token
-function refresh() {
-    // get refresh_token from db
-    // const refresh_token = cryptr.decrypt(token)
-    axios({
-        method: 'post',
-        url: 'https://api.medium.com/v1/tokens',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json',
-            'Accept-Charset': 'utf-8'
-        },
-        data: `refresh_token=${refresh_token}&client_id=${client_id}
-        &client_secret=${client_secret}&grant_type=refresh_token`
-    })
-    .then(res => {
-        // throw the below in the DB
-        //accessT = cryptr.encrypt(access_token);
-    }) 
-    .catch(err => console.log(err));
-}
-
-function create() {
-    axios({
-        method: 'post',
-        url: `https://api.medium.com/v1/users/${authorId}/posts`,
-        headers: {
-            'Authorization': `Bearer ${access_token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Accept-Charset': 'utf-8'
-        },
-        data: {
-            "contentFormat": "html", // or Markdown
-            "title": title,
-            "content": content,
-            "tags": tags.split(','),
-            "publishStatus": "public",
-            "notifyFollowers": true,
-        }
-    })
-    .then(res => {
-        console.log(res.data)
-    })
-    .catch(err => console.log(err));
-};
-
-const imap = {
-    user: 'prosescriptapp@gmail.com',
-    password: process.env.IMAP_PW,
-    host: 'imap.gmail.com',
-    port: 993,
-    tls: true,// use secure connection
-    tlsOptions: { rejectUnauthorized: false }
-};
-
 const n = notifier(imap);
 n.on('end', () => n.start()) // session closed
-  .on('mail', mail => {
-      console.log(mail);
-      /**
-       * what needs to be done?
-       * check if token has expired
-       * if so, refresh
-       * if not, proceed
-       * get the sender's email address
-       * acquire the matching id, token, and token type
-       * grab the title and content
-       * put together the axios request and send it
-       */
-    
-  })
-  .start();
+    .on('mail', mail => {
+        const {subject, html, text} = mail;
+        const email = mail['from'][0]['address'];
+        const mailObj = {
+            title: subject,
+            html: html,
+            text: text,
+            email: email,
+        }
+
+        users.getByEmail(email)
+        .then(res => {
+            const {user_id, access_token, refresh_token, expires_at} = res;
+            return user_id, access_token, refresh_token, expires_at;
+        })
+        .catch(err => console.log(err));
+
+        const now = Date.now();
+        if (now >= expires_at) {
+            refresh(refresh_token, client_id, client_secret)
+        } else {
+            create(user_id, access_token, mailObj)
+        }
+})
+.start();
 
 const port = process.env.PORT || 9000;
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
