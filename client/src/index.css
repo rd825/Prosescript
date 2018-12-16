@@ -1,18 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #123;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.App {
+nav {
+  background: #fefdfa;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  height: 80px;
+  width: 100vw;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+}
+
+.links {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+}
+
+.navlink {
+  border: 1px solid #fefdfa;
+  padding: 5px 15px;
+  border-radius: 3px;
+  transition: all 0.2s;
   text-align: center;
+  color: #123;
+  width: 100px;
+}
+
+.navlink:hover {
+  border: 1px solid #00AB6B;
+  color: #00AB6B;
+  background: #fefdfa;
+}
+
+#logo {
+  margin-bottom: 50px;
+  margin-left: 30px;
+  color: #00AB6B ;
+  font-family: 'Expletus Sans', cursive;
+  font-size: 40px;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------- */
+
+#container {
+  margin-top: 80px;
+  padding: 0 80px;
+  position: absolute;
+  background-image: url('./assets/pen.jpg');
+  background-position: 100% 33%;
+  background-size: 100% auto;
+  height: 89.3vh;
+}
+
+.hero {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 45px;
+  font-weight: bold;
+  margin: 60px 0 50px 0;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  width: 60%;
+  line-height: 25px;
+}
+
+#signup {
+  margin-top: 75px;
+  width: 250px;
+  border-radius: 50px;
+  background: #00AB6B;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+#signup:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.fab {
+  font-size: 20px;
 }
