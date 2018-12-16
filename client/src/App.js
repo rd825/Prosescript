@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
 import Nav from './components/Nav';
 import Home from './components/Home';
+import About from './components/About';
 import Callback from './components/Callback';
 
 const clientId = '575987a2325a';
@@ -15,6 +16,7 @@ class App extends Component {
       <div className="App">
         <Nav signup={url}/>
         <Route exact path="/" render={props => <Home {...props} signup={url}/>} />
+        <Route exact path="/about" render={props => <About {...props} signup={url}/>} />
         <Route path="/callback" render={props => <Callback {...props} />} />
       </div>
     );
