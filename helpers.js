@@ -1,4 +1,9 @@
-function create(user_id, access_token, mailObj) {
+const axios = require('axios');
+const users = require('./db/userModel');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
+
+create = (user_id, access_token, mailObj) => {
     axios({
         method: 'post',
         url: `https://api.medium.com/v1/users/${user_id}/posts`,
@@ -20,7 +25,7 @@ function create(user_id, access_token, mailObj) {
     .catch(err => console.log(err));
 };
 
-function refresh(refresh_token, client_id, client_secret) {
+refresh = (refresh_token, client_id, client_secret, mailObj) => {
     axios({
         method: 'post',
         url: 'https://api.medium.com/v1/tokens',
@@ -29,14 +34,25 @@ function refresh(refresh_token, client_id, client_secret) {
             'Accept': 'application/json',
             'Accept-Charset': 'utf-8'
         },
-        data: `refresh_token=${refresh_token}&client_id=${client_id}
-        &client_secret=${client_secret}&grant_type=refresh_token`
+        data: `refresh_token=${refresh_token}&client_id=${client_id}&client_secret=${client_secret}&grant_type=refresh_token`
     })
     .then(res => {
-        // update access token in DB
-        // then return the raw access token to pass to create function
-        //accessT = cryptr.encrypt(access_token);
+        const {access_token, expires_at} = res.data;
+        const encrypted_access = cryptr.encrypt(access_token)
 
+        users.update(mailObj.email, encrypted_access, expires_at)
+        .then(res => {   
+            users.getByEmail(mailObj.email)
+            .then(res => {
+                const {access_token, user_id} = res;
+                const decrypted_access = cryptr.decrypt(access_token);
+                create(user_id, decrypted_access, mailObj);
+            })
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     }) 
     .catch(err => console.log(err));
 }
+
+module.exports = {create, refresh}

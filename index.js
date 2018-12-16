@@ -4,7 +4,7 @@ const axios = require('axios');
 const notifier = require('mail-notifier');
 const Cryptr = require('cryptr');
 const users = require('./db/userModel');
-const imap = require('./imapConfig');
+const imap = require('./config/imapConfig');
 const {create, refresh} = require('./helpers');
 
 // setting up server + middleware
@@ -57,26 +57,22 @@ server.post('/api/auth', (req, res) => {
                 refresh_token: cryptr.encrypt(refresh_token),
                 expires_at: expires_at,
             }
-
+            
             users.getByUsername(username)
-                .then(userExists => {
-                    if (userExists) {
-                        console.log({message: 'User already exists'});
-                    } else {
-                        users.insert(user)
-                        .then(res => {
-                            console.log(res);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                    }
+            .then(exists => {
+                if (exists) {
+                    console.log({message: 'User already exists'});
+                } else {
+                    users.insert(user)
+                    .then(res => {console.log(res)})
+                    .catch(err => {console.log(err)})
+                }
                 })
-                .catch(err => console.log({message: 'Error finding user'}));
+                .catch(err => console.log({message: 'Error finding user', err}));
         })
-        .catch(err => console.log({message: "User authentication error"}));
+        .catch(err => console.log({message: "User authentication error", err}));
     })
-    .catch(err => console.log({message: "Token exchange error"}));
+    .catch(err => console.log({message: "Token exchange error", err}));
 })
 
 const n = notifier(imap);
@@ -94,16 +90,18 @@ n.on('end', () => n.start()) // session closed
         users.getByEmail(email)
         .then(res => {
             const {user_id, access_token, refresh_token, expires_at} = res;
-            return user_id, access_token, refresh_token, expires_at;
+            const now = Date.now();
+
+            const decrypted_access = cryptr.decrypt(access_token);
+            const decrypted_refresh = cryptr.decrypt(refresh_token);
+
+            if (now >= expires_at) {
+                refresh(decrypted_refresh, client_id, client_secret, mailObj)
+            } else {
+                create(user_id, decrypted_access, mailObj)
+            }
         })
         .catch(err => console.log(err));
-
-        const now = Date.now();
-        if (now >= expires_at) {
-            refresh(refresh_token, client_id, client_secret)
-        } else {
-            create(user_id, access_token, mailObj)
-        }
 })
 .start();
 
