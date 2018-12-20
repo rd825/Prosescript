@@ -16,7 +16,7 @@ class App extends Component {
       <div className="App">
         <Nav signup={url}/>
         <Route exact path="/" render={props => <Home {...props} signup={url}/>} />
-        <Route exact path="/about" render={props => <About {...props} signup={url}/>} />
+        <Route path="/about" render={props => <About {...props} signup={url}/>} />
         <Route path="/callback" render={props => <Callback {...props} />} />
       </div>
     );

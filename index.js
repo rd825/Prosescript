@@ -24,7 +24,7 @@ server.get('/', (req, res) => res.send({API: 'live'}))
 
 // Authenticate a user on Medium via OAuth
 server.post('/api/auth', (req, res) => {
-    const {code} = req.body;
+    const {code, email} = req.body;
     axios({
         method: 'post',
         url: 'https://api.medium.com/v1/tokens',
@@ -51,6 +51,7 @@ server.post('/api/auth', (req, res) => {
             const {id, username, name} = response.data.data;
             const user = {
                 name: name,
+                email: email,
                 username: username,
                 user_id: id,
                 access_token: cryptr.encrypt(access_token),
