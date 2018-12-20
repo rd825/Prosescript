@@ -67,10 +67,13 @@ nav {
 
 /* ---------------------------------------------------------------------------------------------------------------------------- */
 
-#home {
+#home, #about {
   margin-top: 80px;
   padding: 0 80px;
   position: absolute;
+}
+
+#home {
   background-image: url('./assets/pen.jpg');
   background-position: 100% 33%;
   background-size: 100% auto;
@@ -125,7 +128,7 @@ a {
   transition: all 0.3s;
 }
 
-#learn-more:hover {
+#learn-more:hover, #href:hover {
   border-bottom: 2.5px solid #00AB6B;
 }
 
@@ -134,3 +137,28 @@ a {
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------------- */
+
+.italic {
+  font-style: italic;
+}
+
+#about {
+  background-color: #e2e6e5;
+}
+
+ol {
+  list-style-type: decimal;
+  padding: 0 20px;
+  margin-bottom: 80px;
+  font-size: 20px;
+}
+
+li {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+#href {
+  color: #00AB6B;
+  transition: all 0.3s;
+}
