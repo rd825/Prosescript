@@ -35,8 +35,8 @@ server.post('/api/auth', (req, res) => {
         },
         data: `code=${code}&client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&redirect_uri=${redirect_uri}`
     })
-    .then(res => {
-        const {access_token, refresh_token, expires_at} = res.data;
+    .then(response => {
+        const {access_token, refresh_token, expires_at} = response.data;
         axios({
             method: 'get',
             url: 'https://api.medium.com/v1/me',
@@ -58,22 +58,24 @@ server.post('/api/auth', (req, res) => {
                 refresh_token: cryptr.encrypt(refresh_token),
                 expires_at: expires_at,
             }
+
+            // add res.status.json to the catches
             
             users.getByUsername(username)
             .then(exists => {
                 if (exists) {
-                    console.log({message: 'User already exists'});
+                    res.status(304).json({message: 'User already exists'});
                 } else {
                     users.insert(user)
-                    .then(res => {console.log(res)})
-                    .catch(err => {console.log(err)})
+                    .then(response => res.status(201).json({message: 'user created'}))
+                    .catch(err => res.status(500).json(err));
                 }
                 })
-                .catch(err => console.log({message: 'Error finding user', err}));
+                .catch(err => res.status(404).json({message: 'Error finding user'}));
         })
-        .catch(err => console.log({message: "User authentication error", err}));
+        .catch(err => res.status(401).json({message: 'User authentication error'}));
     })
-    .catch(err => console.log({message: "Token exchange error", err}));
+    .catch(err => res.status(401).json({message: 'Token exchange error'}));
 })
 
 const n = notifier(imap);

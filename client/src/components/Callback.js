@@ -35,10 +35,14 @@ class Callback extends Component {
             alert('Please enter the email address you wish to use.')
         } else {
             axios.post('http://localhost:9000/api/auth', {code: values.code, email: this.state.email})
-                .then(res => this.setState({email: '', success: true}))
+                .then(res => {
+                    this.setState({email: '', success: true})
+                    console.log('then fired')
+                })
                 .catch(err => this.setState({error: true}));
         }
         event.target.reset();
+        console.log('reset fired')
     }
 
     render() {
