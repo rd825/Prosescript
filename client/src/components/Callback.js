@@ -33,6 +33,13 @@ class Callback extends Component {
             alert('Please enter the email address you wish to use.')
         } else {
             axios.post('http://localhost:9000/api/auth', {code: values.code, email: this.state.email})
+                .then(res => {
+                    this.setState({email: '',})
+                    alert('Sign Up Complete.')
+                    this.disabled = true;
+                })
+                .catch(err => console.log(err));
+            event.target.reset();
         }
     }
 
@@ -58,9 +65,9 @@ class Callback extends Component {
         } else {
             return (
                 <div id='register'>
-                    <h1 className='hero'>How does it work?</h1>
+                    <h1 className='hero'>You're almost signed up!</h1>
 
-                    <h4>Read all of the following for the best Prosescript experience:</h4>
+                    <h4>Please read all of the following for the best Prosescript experience:</h4>
 
                     <ol>
                         <li>Now that you've signed up, you're ready to go. In fact, you'll never need to visit our website again.</li>
@@ -74,7 +81,7 @@ class Callback extends Component {
                         <li>That's it. Just make sure you're sending your posts to us from the email you register with. Now go forth and write!</li>
                     </ol>
 
-                    <h1 className='hero'>We need your email address.</h1>
+                    <h1 className='hero'>Like we said, we just need your email.</h1>
                     
                     <h4>You should enter the email address you will be sending your writing from. This is how we process your emails and post appropriately to your Medium account. Without your email, we won't be able to link up your posts to your account, meaning you won't get published!</h4>
 
