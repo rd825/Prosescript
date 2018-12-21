@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import queryString from 'query-string';
 import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 class Callback extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class Callback extends Component {
         this.state = {
             error: false,
             email: '',
+            success: false,
         }
     }
 
@@ -33,18 +35,18 @@ class Callback extends Component {
             alert('Please enter the email address you wish to use.')
         } else {
             axios.post('http://localhost:9000/api/auth', {code: values.code, email: this.state.email})
-                .then(res => {
-                    this.setState({email: '',})
-                    alert('Sign Up Complete.')
-                    this.disabled = true;
-                })
-                .catch(err => console.log(err));
-            event.target.reset();
+                .then(res => this.setState({email: '', success: true}))
+                .catch(err => this.setState({error: true}));
         }
+        event.target.reset();
     }
 
     render() {
-        if (this.state.error) {
+        if (this.state.success === true) {
+            return (
+                <Redirect to='/'></Redirect>
+            )
+        } else if (this.state.error) {
             return(
                 <div id='error'>
                     <h1 className='hero'>Hmm, something went wrong.</h1>
@@ -78,12 +80,14 @@ class Callback extends Component {
                         
                         <li>Just one more thing... <mark>You need to register an email below or we won't know it's you!</mark></li>
 
-                        <li>That's it. Just make sure you're sending your posts to us from the email you register with. Now go forth and write!</li>
+                        <li>That's it. Just make sure you're sending your posts to us from the email you register with.</li>
                     </ol>
 
-                    <h1 className='hero'>Like we said, we just need your email.</h1>
+                    <h1 className='hero'>We just need your email.</h1>
                     
                     <h4>You should enter the email address you will be sending your writing from. This is how we process your emails and post appropriately to your Medium account. Without your email, we won't be able to link up your posts to your account, meaning you won't get published!</h4>
+
+                    <h4><mark>Once you're successfully signed up, we'll redirect you back to the homepage.</mark></h4>
 
                     <form onSubmit={this.submitHandler}>
                         <input type='email' name='email' placeholder='Please enter your email here.' value={this.props.value} onChange={this.changeHandler}/>
