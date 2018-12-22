@@ -76,11 +76,15 @@ class Callback extends Component {
                     <h4>Please read all of the following for the best Prosescript experience:</h4>
 
                     <ol>
+                        <li><span className='italic'>You are participating in an <mark>alpha test</mark> of Prosescript. It is quite likely you will encounter bugs during this time. Please report them to <a className='href' href='https://twitter.com/RDesai01'>@RDesai01</a> on Twitter.</span></li>
+
                         <li>Now that you've signed up, you're ready to go. In fact, you'll never need to visit our website again.</li>
                         
                         <li>When you have writing that you want to publish, simply email it to <mark>prosescriptapp  @gmail .com</mark> (without the spaces).</li>
                         
                         <li>The subject line of your email will be your post's title and the text of your email will be your post.</li>
+
+                        <li>We will parse your copy as if it is HTML. We do not support Markdown at this time. Generally, this means that your posts cannot have images and will render without formatting.</li>
                         
                         <li>Just one more thing... <mark>You need to register an email below or we won't know it's you!</mark></li>
 
