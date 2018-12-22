@@ -23,9 +23,9 @@ const About = props => {
 
             <h4>Because we're writers, we couldn't resist the urge to gave our own name a double meaning.</h4>
 
-            <h4>In Latin, <span className='italic'>pro se</span> means "for oneself" and <span className='italic'>scriptus</span> means "written." So Prosescript is <span className='italic'>writing for oneself</span>. Since we believe writing is thinking, we want Prosescript to be a home for those who want to get their thoughts out into the world.</h4>
+            <h4>In Latin, <span className='italic'>pro se</span> means "for oneself" and <span className='italic'>scriptus</span> means "written." So Prosescript is writing for oneself. Since we believe writing is thinking, we want Prosescript to be a home for those who want to get their thoughts out into the world.</h4>
 
-            <h4>In English, <span className='italic'>prose</span> refers to "ordinary spoken or written language" and <span className='italic'>script</span> is a "list of commands executed by a computer." In this sense, Prosescript is <span className='italic'>a computer program that renders your writing.</span></h4>
+            <h4>In English, <span className='italic'>prose</span> refers to "ordinary spoken or written language" and <span className='italic'>script</span> is a "list of commands executed by a computer." In this sense, Prosescript is a computer program that renders your writing.</h4>
 
             <h4>For us, these two meanings encapsulate the core purpose of Prosescript. Our goal is to provide you with a tech tool that enables you to write for yourself by rendering your thinking into the world. Sign up <a className='href' href={props.signup}>here</a> or using the "Sign Up" button above!</h4>
             

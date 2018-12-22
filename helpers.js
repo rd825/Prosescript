@@ -2,6 +2,15 @@ const axios = require('axios');
 const users = require('./db/userModel');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'prosescriptapp@gmail.com',
+           pass: process.env.GMAIL_PW,
+    }
+});
 
 create = (user_id, access_token, mailObj) => {
     axios({
@@ -21,7 +30,20 @@ create = (user_id, access_token, mailObj) => {
             "notifyFollowers": true,
         }
     })
-    .then(res => console.log(res.data))
+    .then(res => {
+        console.log(res.data)
+        transporter.sendMail({
+            from: 'prosescriptapp@gmail.com',
+            to: `${mailObj.email}`,
+            subject: 'Your writing has been posted',
+            html: `You can access your post here: ${res.data.data.url}`
+        }, function (err, info) {
+            if(err)
+              console.log(err);
+            else
+              console.log(info);
+         });
+    })
     .catch(err => console.log(err));
 };
 
