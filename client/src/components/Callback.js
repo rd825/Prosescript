@@ -76,7 +76,7 @@ class Callback extends Component {
                     <h4>Please read all of the following for the best Prosescript experience:</h4>
 
                     <ol>
-                        <li><span className='italic'>You are participating in an <mark>alpha test</mark> of Prosescript. It is quite likely you will encounter bugs during this time. Please report them to <a className='href' href='https://twitter.com/RDesai01'>@RDesai01</a> on Twitter.</span></li>
+                        <li>You are participating in an <mark>alpha test</mark> of Prosescript. It is quite likely you will encounter bugs. Please report them to <a className='href' href='https://twitter.com/RDesai01'>@RDesai01</a> on Twitter.</li>
 
                         <li>Now that you've signed up, you're ready to go. In fact, you'll never need to visit our website again.</li>
                         
