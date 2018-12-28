@@ -7,10 +7,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        type: 'OAuth2',
         user: 'prosescriptapp@gmail.com',
-        serviceClient: '108341296954375009810',
-        privateKey: process.env.PRIVATE_KEY
+        pass: process.env.GMAIL_PW,
     }
 });
 
