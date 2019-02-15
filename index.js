@@ -78,35 +78,35 @@ server.post('/api/auth', (req, res) => {
     .catch(err => res.status(401).json({message: 'Token exchange error'}));
 })
 
-const n = notifier(imap);
-n.on('end', () => n.start()) // session closed
-    .on('mail', mail => {
-        const {subject, html, text} = mail;
-        const email = mail['from'][0]['address'];
-        const mailObj = {
-            title: subject,
-            html: html,
-            text: text,
-            email: email,
-        }
+// const n = notifier(imap);
+// n.on('end', () => n.start()) // session closed
+//     .on('mail', mail => {
+//         const {subject, html, text} = mail;
+//         const email = mail['from'][0]['address'];
+//         const mailObj = {
+//             title: subject,
+//             html: html,
+//             text: text,
+//             email: email,
+//         }
 
-        users.getByEmail(email)
-        .then(res => {
-            const {user_id, access_token, refresh_token, expires_at} = res;
-            const now = Date.now();
+//         users.getByEmail(email)
+//         .then(res => {
+//             const {user_id, access_token, refresh_token, expires_at} = res;
+//             const now = Date.now();
 
-            const decrypted_access = cryptr.decrypt(access_token);
-            const decrypted_refresh = cryptr.decrypt(refresh_token);
+//             const decrypted_access = cryptr.decrypt(access_token);
+//             const decrypted_refresh = cryptr.decrypt(refresh_token);
 
-            if (now >= expires_at) {
-                refresh(decrypted_refresh, client_id, client_secret, mailObj)
-            } else {
-                create(user_id, decrypted_access, mailObj)
-            }
-        })
-        .catch(err => console.log(err));
-})
-.start();
+//             if (now >= expires_at) {
+//                 refresh(decrypted_refresh, client_id, client_secret, mailObj)
+//             } else {
+//                 create(user_id, decrypted_access, mailObj)
+//             }
+//         })
+//         .catch(err => console.log(err));
+// })
+// .start();
 
 const port = process.env.PORT || 9000;
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
