@@ -20,7 +20,7 @@ const redirect_uri = process.env.REDIRECT_URI;
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 
 // API status
-server.get("/", (req, res) => res.send({ Prosescript: "API is live" }));
+server.get("/", (req, res) => res.send({ "Prosescript API": "Live" }));
 
 // Authenticate a user on Medium via OAuth
 server.post("/api/auth", (req, res) => {
