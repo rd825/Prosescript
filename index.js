@@ -110,13 +110,13 @@ server.post("/api/emails", (req, res) => {
         res.end("received fields:\n\n " + fields);
 
         //FROM
-        console.log(fields[2][1]);
+        console.log("FROM: " + fields[2][1]);
 
         //PLAIN
-        console.log(fields[5][1]);
+        console.log("PLAIN: " + fields[5][1]);
 
         //HTML
-        console.log(fields[6][1]);
+        console.log("HTML: " + fields[6][1]);
       });
 
     form.parse(req);
