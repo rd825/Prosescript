@@ -92,44 +92,38 @@ server.post("/api/auth", (req, res) => {
 // Listen for new emails, read them and process accordingly
 
 server.post("/api/emails", (req, res) => {
-    res.status(201).json(req.body)
-
-//   if (req.url == "/api/emails") {
-//     let form = new formidable.IncomingForm(),
-//       fields = [];
-
-//     form
-//       .on("error", function(err) {
-//         res.writeHead(200, { "content-type": "text/plain" });
-//         res.end("error:\n\n" + err);
-//       })
-//       .on("field", function(field, value) {
-//         fields.push([field, value]);
-//       })
-//       .on("end", function() {
-//         console.log("-> post done" + fields);
-//         res.writeHead(200, { "content-type": "text/plain" });
-
-//         //FROM
-//         console.log("FROM: " + fields.headers["Return-Path"]);
-
-//         //PLAIN
-//         console.log("PLAIN: " + fields.doneplain);
-
-//         //HTML
-//         console.log("HTML: " + fields.html);
-//       });
-
-//     //   fields.headers['Return-Path']
-//     //   fields.headers['From']
-//     //   fields.headers['To']
-
-//     form.parse(req);
-//   } else {
-//     res.writeHead(404, { "content-type": "text/plain" });
-//     res.end("404");
-  }
-
+  res.status(201).json(req.body);
+  //   if (req.url == "/api/emails") {
+  //     let form = new formidable.IncomingForm(),
+  //       fields = [];
+  //     form
+  //       .on("error", function(err) {
+  //         res.writeHead(200, { "content-type": "text/plain" });
+  //         res.end("error:\n\n" + err);
+  //       })
+  //       .on("field", function(field, value) {
+  //         fields.push([field, value]);
+  //       })
+  //       .on("end", function() {
+  //         console.log("-> post done" + fields);
+  //         res.writeHead(200, { "content-type": "text/plain" });
+  //         //FROM
+  //         console.log("FROM: " + fields[2][1]);
+  //         //PLAIN
+  //         console.log("PLAIN: " + fields[5][1]);
+  //         //HTML
+  //         console.log("HTML: " + fields[6][1]);
+  //       });
+  //       headers['Return-Path']
+  //       fields.headers['From']
+  //       fields.headers['To']
+  //       fields.doneplain
+  //       fields.html
+  //     form.parse(req);
+  //   } else {
+  //     res.writeHead(404, { "content-type": "text/plain" });
+  //     res.end("404");
+  //   }
   //   let form = new formidable.IncomingForm();
   //   form.parse(req, function(err, fields, files) {
   //     const mailObj = {
@@ -144,10 +138,8 @@ server.post("/api/emails", (req, res) => {
   //   .then(res => {
   //     const { user_id, access_token, refresh_token, expires_at } = res;
   //     const now = Date.now();
-
   //     const decrypted_access = cryptr.decrypt(access_token);
   //     const decrypted_refresh = cryptr.decrypt(refresh_token);
-
   //     if (now >= expires_at) {
   //       refresh(decrypted_refresh, client_id, client_secret, mailObj);
   //     } else {
@@ -156,7 +148,7 @@ server.post("/api/emails", (req, res) => {
   //   })
   //   .catch(err => console.log(err));
   //   });
-// });
+});
 
 // const n = notifier(imap);
 // n.on("end", () => n.start()) // session closed
