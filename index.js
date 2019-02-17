@@ -92,7 +92,7 @@ server.post("/api/auth", (req, res) => {
 // Listen for new emails, read them and process accordingly
 
 server.post("/api/emails", (req, res) => {
-  parsedBody = JSON.parse(request.body);
+  parsedBody = JSON.parse(req.body);
   console.log(parsedBody.headers["Return-Path"]);
   console.log(parsedBody.headers["Subject"]);
   console.log(parsedBody.plain);
