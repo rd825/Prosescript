@@ -92,40 +92,42 @@ server.post("/api/auth", (req, res) => {
 // Listen for new emails, read them and process accordingly
 
 server.post("/api/emails", (req, res) => {
-  if (req.url == "/api/emails") {
-    let form = new formidable.IncomingForm(),
-      fields = [];
+    res.status(201).json(req.body)
 
-    form
-      .on("error", function(err) {
-        res.writeHead(200, { "content-type": "text/plain" });
-        res.end("error:\n\n" + err);
-      })
-      .on("field", function(field, value) {
-        fields.push([field, value]);
-      })
-      .on("end", function() {
-        console.log("-> post done" + fields);
-        res.writeHead(200, { "content-type": "text/plain" });
+//   if (req.url == "/api/emails") {
+//     let form = new formidable.IncomingForm(),
+//       fields = [];
 
-        //FROM
-        console.log("FROM: " + fields.headers["Return-Path"]);
+//     form
+//       .on("error", function(err) {
+//         res.writeHead(200, { "content-type": "text/plain" });
+//         res.end("error:\n\n" + err);
+//       })
+//       .on("field", function(field, value) {
+//         fields.push([field, value]);
+//       })
+//       .on("end", function() {
+//         console.log("-> post done" + fields);
+//         res.writeHead(200, { "content-type": "text/plain" });
 
-        //PLAIN
-        console.log("PLAIN: " + fields.doneplain);
+//         //FROM
+//         console.log("FROM: " + fields.headers["Return-Path"]);
 
-        //HTML
-        console.log("HTML: " + fields.html);
-      });
+//         //PLAIN
+//         console.log("PLAIN: " + fields.doneplain);
 
-    //   fields.headers['Return-Path']
-    //   fields.headers['From']
-    //   fields.headers['To']
+//         //HTML
+//         console.log("HTML: " + fields.html);
+//       });
 
-    form.parse(req);
-  } else {
-    res.writeHead(404, { "content-type": "text/plain" });
-    res.end("404");
+//     //   fields.headers['Return-Path']
+//     //   fields.headers['From']
+//     //   fields.headers['To']
+
+//     form.parse(req);
+//   } else {
+//     res.writeHead(404, { "content-type": "text/plain" });
+//     res.end("404");
   }
 
   //   let form = new formidable.IncomingForm();
