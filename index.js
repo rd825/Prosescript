@@ -109,14 +109,18 @@ server.post("/api/emails", (req, res) => {
         res.writeHead(200, { "content-type": "text/plain" });
 
         //FROM
-        console.log("FROM: " + fields[2][1]);
+        console.log("FROM: " + fields.headers["Return-Path"]);
 
         //PLAIN
-        console.log("PLAIN: " + fields[5][1]);
+        console.log("PLAIN: " + fields.doneplain);
 
         //HTML
-        console.log("HTML: " + fields[6][1]);
+        console.log("HTML: " + fields.html);
       });
+
+    //   fields.headers['Return-Path']
+    //   fields.headers['From']
+    //   fields.headers['To']
 
     form.parse(req);
   } else {
