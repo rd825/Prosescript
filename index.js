@@ -95,28 +95,28 @@ server.post("/api/emails", (req, res) => {
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     const mailObj = {
-      title: fields.headers["Subject"],
+      //title: fields.headers["Subject"],
       html: fields.html,
       text: fields.plain,
       email: fields.from
     };
     console.log(mailObj);
-    users
-      .getByEmail(fields.from)
-      .then(res => {
-        const { user_id, access_token, refresh_token, expires_at } = res;
-        const now = Date.now();
+    // users
+    //   .getByEmail(fields.from)
+    //   .then(res => {
+    //     const { user_id, access_token, refresh_token, expires_at } = res;
+    //     const now = Date.now();
 
-        const decrypted_access = cryptr.decrypt(access_token);
-        const decrypted_refresh = cryptr.decrypt(refresh_token);
+    //     const decrypted_access = cryptr.decrypt(access_token);
+    //     const decrypted_refresh = cryptr.decrypt(refresh_token);
 
-        if (now >= expires_at) {
-          refresh(decrypted_refresh, client_id, client_secret, mailObj);
-        } else {
-          create(user_id, decrypted_access, mailObj);
-        }
-      })
-      .catch(err => console.log(err));
+    //     if (now >= expires_at) {
+    //       refresh(decrypted_refresh, client_id, client_secret, mailObj);
+    //     } else {
+    //       create(user_id, decrypted_access, mailObj);
+    //     }
+    //   })
+    //   .catch(err => console.log(err));
   });
 });
 
