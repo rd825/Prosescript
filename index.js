@@ -92,6 +92,7 @@ server.post("/api/auth", (req, res) => {
 // Listen for new emails, read them and process accordingly
 
 server.post("/api/emails", (req, res) => {
+  console.log(req.body);
   res.status(201).json(req.body);
   //   if (req.url == "/api/emails") {
   //     let form = new formidable.IncomingForm(),
