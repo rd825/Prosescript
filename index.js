@@ -105,9 +105,8 @@ server.post("/api/emails", (req, res) => {
         fields.push([field, value]);
       })
       .on("end", function() {
-        console.log("-> post done");
+        console.log("-> post done" + fields);
         res.writeHead(200, { "content-type": "text/plain" });
-        res.end("received fields:\n\n " + fields);
 
         //FROM
         console.log("FROM: " + fields[2][1]);
