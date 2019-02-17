@@ -99,7 +99,7 @@ server.post("/api/emails", (req, res) => {
     form
       .on("error", function(err) {
         res.writeHead(200, { "content-type": "text/plain" });
-        res.end("error:\n\n" + util.inspect(err));
+        res.end("error:\n\n" + err);
       })
       .on("field", function(field, value) {
         fields.push([field, value]);
@@ -107,7 +107,7 @@ server.post("/api/emails", (req, res) => {
       .on("end", function() {
         console.log("-> post done");
         res.writeHead(200, { "content-type": "text/plain" });
-        res.end("received fields:\n\n " + util.inspect(fields));
+        res.end("received fields:\n\n " + fields);
 
         //FROM
         console.log(fields[2][1]);
