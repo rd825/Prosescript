@@ -92,32 +92,65 @@ server.post("/api/auth", (req, res) => {
 // Listen for new emails, read them and process accordingly
 
 server.post("/api/emails", (req, res) => {
-  let form = new formidable.IncomingForm();
-  form.parse(req, function(err, fields, files) {
-    const mailObj = {
-      //title: fields.headers["Subject"],
-      html: fields.html,
-      text: fields.plain,
-      email: fields.from
-    };
-    console.log(mailObj);
-    // users
-    //   .getByEmail(fields.from)
-    //   .then(res => {
-    //     const { user_id, access_token, refresh_token, expires_at } = res;
-    //     const now = Date.now();
+  if (req.url == "/api/emails") {
+    let form = new formidable.IncomingForm(),
+      fields = [];
 
-    //     const decrypted_access = cryptr.decrypt(access_token);
-    //     const decrypted_refresh = cryptr.decrypt(refresh_token);
+    form
+      .on("error", function(err) {
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end("error:\n\n" + util.inspect(err));
+      })
+      .on("field", function(field, value) {
+        fields.push([field, value]);
+      })
+      .on("end", function() {
+        console.log("-> post done");
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end("received fields:\n\n " + util.inspect(fields));
 
-    //     if (now >= expires_at) {
-    //       refresh(decrypted_refresh, client_id, client_secret, mailObj);
-    //     } else {
-    //       create(user_id, decrypted_access, mailObj);
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
-  });
+        //FROM
+        console.log(fields[2][1]);
+
+        //PLAIN
+        console.log(fields[5][1]);
+
+        //HTML
+        console.log(fields[6][1]);
+      });
+
+    form.parse(req);
+  } else {
+    res.writeHead(404, { "content-type": "text/plain" });
+    res.end("404");
+  }
+
+  //   let form = new formidable.IncomingForm();
+  //   form.parse(req, function(err, fields, files) {
+  //     const mailObj = {
+  //       //title: fields.headers["Subject"],
+  //       html: fields.html,
+  //       text: fields.plain,
+  //       email: fields.from
+  //     };
+  //     console.log(mailObj);
+  // users
+  //   .getByEmail(fields.from)
+  //   .then(res => {
+  //     const { user_id, access_token, refresh_token, expires_at } = res;
+  //     const now = Date.now();
+
+  //     const decrypted_access = cryptr.decrypt(access_token);
+  //     const decrypted_refresh = cryptr.decrypt(refresh_token);
+
+  //     if (now >= expires_at) {
+  //       refresh(decrypted_refresh, client_id, client_secret, mailObj);
+  //     } else {
+  //       create(user_id, decrypted_access, mailObj);
+  //     }
+  //   })
+  //   .catch(err => console.log(err));
+  //   });
 });
 
 // const n = notifier(imap);
