@@ -156,7 +156,7 @@ server.post("/api/emails", (req, res) => {
   //   })
   //   .catch(err => console.log(err));
   //   });
-});
+// });
 
 // const n = notifier(imap);
 // n.on("end", () => n.start()) // session closed
