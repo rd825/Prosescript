@@ -1,11 +1,8 @@
 // importing relevant packages
 const express = require("express");
 const axios = require("axios");
-//const notifier = require("mail-notifier");
 const Cryptr = require("cryptr");
-const formidable = require("formidable");
 const users = require("./db/userModel");
-//const imap = require("./config/imapConfig");
 const { create, refresh } = require("./helpers");
 
 // setting up server + middleware
@@ -90,101 +87,35 @@ server.post("/api/auth", (req, res) => {
 });
 
 // Listen for new emails, read them and process accordingly
-
 server.post("/api/emails", (req, res) => {
-  const { body } = req;
-  console.log(body.headers["Return-Path"]);
-  console.log(body.headers["Subject"]);
-  console.log(body.plain);
-  console.log(body.html);
-  res.status(201).json(body);
-  //   if (req.url == "/api/emails") {
-  //     let form = new formidable.IncomingForm(),
-  //       fields = [];
-  //     form
-  //       .on("error", function(err) {
-  //         res.writeHead(200, { "content-type": "text/plain" });
-  //         res.end("error:\n\n" + err);
-  //       })
-  //       .on("field", function(field, value) {
-  //         fields.push([field, value]);
-  //       })
-  //       .on("end", function() {
-  //         console.log("-> post done" + fields);
-  //         res.writeHead(200, { "content-type": "text/plain" });
-  //         //FROM
-  //         console.log("FROM: " + fields[2][1]);
-  //         //PLAIN
-  //         console.log("PLAIN: " + fields[5][1]);
-  //         //HTML
-  //         console.log("HTML: " + fields[6][1]);
-  //       });
-  //       headers['Return-Path']
-  //       fields.headers['From']
-  //       fields.headers['To']
-  //       fields.doneplain
-  //       fields.html
-  //     form.parse(req);
-  //   } else {
-  //     res.writeHead(404, { "content-type": "text/plain" });
-  //     res.end("404");
-  //   }
-  //   let form = new formidable.IncomingForm();
-  //   form.parse(req, function(err, fields, files) {
-  //     const mailObj = {
-  //       //title: fields.headers["Subject"],
-  //       html: fields.html,
-  //       text: fields.plain,
-  //       email: fields.from
-  //     };
-  //     console.log(mailObj);
-  // users
-  //   .getByEmail(fields.from)
-  //   .then(res => {
-  //     const { user_id, access_token, refresh_token, expires_at } = res;
-  //     const now = Date.now();
-  //     const decrypted_access = cryptr.decrypt(access_token);
-  //     const decrypted_refresh = cryptr.decrypt(refresh_token);
-  //     if (now >= expires_at) {
-  //       refresh(decrypted_refresh, client_id, client_secret, mailObj);
-  //     } else {
-  //       create(user_id, decrypted_access, mailObj);
-  //     }
-  //   })
-  //   .catch(err => console.log(err));
-  //   });
+  const { plain, html } = req.body;
+  const email = req.body.headers["Return-Path"];
+  const subject = req.body.headers["Subject"];
+
+  const mailObj = {
+    title: subject,
+    html: html,
+    text: plain,
+    email: email
+  };
+
+  users
+    .getByEmail(email)
+    .then(res => {
+      const { user_id, access_token, refresh_token, expires_at } = res;
+      const now = Date.now();
+
+      const decrypted_access = cryptr.decrypt(access_token);
+      const decrypted_refresh = cryptr.decrypt(refresh_token);
+
+      if (now >= expires_at) {
+        refresh(decrypted_refresh, client_id, client_secret, mailObj);
+      } else {
+        create(user_id, decrypted_access, mailObj);
+      }
+    })
+    .catch(err => console.log(err));
 });
-
-// const n = notifier(imap);
-// n.on("end", () => n.start()) // session closed
-//   .on("mail", mail => {
-//     const { subject, html, text } = mail;
-//     const email = mail["from"][0]["address"];
-//     const mailObj = {
-//       title: subject,
-//       html: html,
-//       text: text,
-//       email: email
-//     };
-
-// users
-//   .getByEmail(email)
-//   .then(res => {
-//     const { user_id, access_token, refresh_token, expires_at } = res;
-//     const now = Date.now();
-
-//     const decrypted_access = cryptr.decrypt(access_token);
-//     const decrypted_refresh = cryptr.decrypt(refresh_token);
-
-//     if (now >= expires_at) {
-//       refresh(decrypted_refresh, client_id, client_secret, mailObj);
-//     } else {
-//       create(user_id, decrypted_access, mailObj);
-//     }
-//   })
-//   .catch(err => console.log(err));
-//   })
-//   .start();
 
 const port = process.env.PORT || 9000;
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`));
