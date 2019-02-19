@@ -7,4 +7,4 @@ const imapConfig = {
   tlsOptions: { rejectUnauthorized: false }
 };
 
-export default imapConfig;
+module.exports = imapConfig;
