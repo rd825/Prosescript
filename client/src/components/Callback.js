@@ -42,10 +42,11 @@ class Callback extends Component {
           email: this.state.email
         })
         .then(res => {
+          console.log(res.data);
           this.setState({ email: "", success: true });
           console.log("then fired");
         })
-        .catch(err => this.setState({ error: true }));
+        .catch(err => this.setState({ error: true, err }));
     }
     event.target.reset();
     console.log("reset fired");
@@ -117,7 +118,8 @@ class Callback extends Component {
 
               <li>
                 When you have writing that you want to publish, simply email it
-                to <mark>prosescript(at)outlook(dot)com</mark> (replace the words in parentheses with the corresponding characters).
+                to <mark>prosescript(at)outlook(dot)com</mark> (replace the
+                words in parentheses with the corresponding characters).
               </li>
 
               <li>
