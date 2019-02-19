@@ -2,6 +2,9 @@
 const express = require("express");
 const axios = require("axios");
 const Cryptr = require("cryptr");
+const notifier = require("mail-notifier");
+
+// import data model, configs, helpers
 const users = require("./db/userModel");
 const { create, refresh } = require("./helpers");
 const imap = require("./config/imapConfig");

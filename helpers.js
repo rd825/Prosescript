@@ -1,3 +1,4 @@
+require("dotenv").config();
 const axios = require("axios");
 const users = require("./db/userModel");
 const Cryptr = require("cryptr");
