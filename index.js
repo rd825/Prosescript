@@ -76,21 +76,11 @@ server.post("/api/auth", (req, res) => {
                   .catch(err => res.status(500).json(err));
               }
             })
-            .catch(err =>
-              res
-                .status(404)
-                .json({ message: "Error finding user", error: err })
-            );
+            .catch(err => res.status(404).json(err));
         })
-        .catch(err =>
-          res
-            .status(401)
-            .json({ message: "User authentication error", error: err })
-        );
+        .catch(err => res.status(401).json(err));
     })
-    .catch(err =>
-      res.status(401).json({ message: "Token exchange error", error: err })
-    );
+    .catch(err => res.status(401).json(err));
 });
 
 const n = notifier(imap);
