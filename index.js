@@ -77,15 +77,17 @@ server.post("/api/auth", (req, res) => {
               }
             })
             .catch(err =>
-              res.status(404).json({ message: "Error finding user", err })
+              res.status(404).json({ message: "Error finding user", err: err })
             );
         })
         .catch(err =>
-          res.status(401).json({ message: "User authentication error", err })
+          res
+            .status(401)
+            .json({ message: "User authentication error", err: err })
         );
     })
     .catch(err =>
-      res.status(401).json({ message: "Token exchange error", err })
+      res.status(401).json({ message: "Token exchange error", err: err })
     );
 });
 

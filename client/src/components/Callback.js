@@ -46,7 +46,10 @@ class Callback extends Component {
           this.setState({ email: "", success: true });
           console.log("then fired");
         })
-        .catch(err => this.setState({ error: true, err }));
+        .catch(err => {
+          console.log(err);
+          this.setState({ error: true });
+        });
     }
     event.target.reset();
     console.log("reset fired");
