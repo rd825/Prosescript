@@ -62,6 +62,10 @@ class Callback extends Component {
             <h4>Here are a couple things you could try:</h4>
             <ol>
               <li>
+                You've already signed up for Prosescript with that Medium
+                account.
+              </li>
+              <li>
                 Make sure you have a{" "}
                 <a className="href" href="https://medium.com/">
                   Medium account
