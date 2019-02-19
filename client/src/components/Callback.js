@@ -117,7 +117,7 @@ class Callback extends Component {
 
               <li>
                 When you have writing that you want to publish, simply email it
-                to <mark>prosescriptapp @gmail .com</mark> (without the spaces).
+                to <mark>prosescript(at)outlook(dot)com</mark> (replace the words in parentheses with the corresponding characters).
               </li>
 
               <li>
