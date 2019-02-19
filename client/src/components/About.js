@@ -75,8 +75,8 @@ const About = props => {
           Sign up{" "}
           <a className="href" href={props.signup}>
             here
-          </a>{" "}
-          or using the "Sign Up" button above!
+          </a>
+          .
         </h4>
       </div>
     </Container>

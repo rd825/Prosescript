@@ -177,10 +177,15 @@ class Callback extends Component {
 export default Callback;
 
 const Form = styled.form`
-  margin: 60px 0 50px 0;
+  margin: 60px 0 50px;
   font-family: "Lato", sans-serif;
   display: flex;
   flex-flow: column nowrap;
+
+  @media (max-width: 800px) {
+    margin: 30px 0;
+    align-items: center;
+  }
 
   input[type="email"] {
     padding: 20px 10px;
@@ -191,6 +196,11 @@ const Form = styled.form`
     font-size: 20px;
     height: 50px;
     width: 500px;
+
+    @media (max-width: 800px) {
+      font-size: 15px;
+      width: 100%;
+    }
   }
 
   input[type="email"]:focus {
@@ -211,6 +221,10 @@ const Form = styled.form`
     padding: 15px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    @media (max-width: 500px) {
+      margin-top: 30px;
+    }
   }
 
   input[type="submit"]:hover {

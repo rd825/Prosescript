@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
 const Container = styled.div`
+  height: 100%;
+
   #home,
   #about,
   #register,
@@ -10,17 +12,31 @@ const Container = styled.div`
     position: absolute;
     width: 100%;
 
+    @media (max-width: 800px) {
+      padding: 0 40px;
+    }
+
     .hero {
       font-family: "Libre Baskerville", serif;
       font-size: 45px;
       font-weight: bold;
-      margin: 60px 0 50px 0;
+      margin: 60px 0 50px;
+
+      @media (max-width: 800px) {
+        font-size: 25px;
+        margin: 30px 0;
+      }
     }
 
     h4 {
       font-size: 20px;
       margin-bottom: 20px;
       width: 60%;
+
+      @media (max-width: 800px) {
+        width: 100%;
+        font-size: 15px;
+      }
     }
   }
 
@@ -43,6 +59,11 @@ const Container = styled.div`
       li {
         padding-left: 20px;
         margin-bottom: 20px;
+
+        @media (max-width: 800px) {
+          width: 100%;
+          font-size: 15px;
+        }
       }
     }
 

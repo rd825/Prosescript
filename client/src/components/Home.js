@@ -2,12 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Container from "./Container";
 import styled from "@emotion/styled";
-import bg from "../assets/pen.jpg";
+import bg1 from "../assets/pen.jpg";
 
 const Home = props => {
+  const width = window.innerWidth;
+  console.log(width);
   return (
     <Container>
-      <StyledHome id="home" style={{ backgroundImage: `url(${bg})` }}>
+      <StyledHome id="home">
         <h1 className="hero">Put your thoughts into the world.</h1>
         <h4>
           Prosescript is a lightweight, Posterous-like interface for Medium.
@@ -39,9 +41,15 @@ const Home = props => {
 export default Home;
 
 const StyledHome = styled.div`
-  background-position: 100% 33%;
-  background-size: 100% auto;
-  height: 89.3vh;
+  background: url(${bg1});
+  background-size: cover;
+  height: 100vh;
+  background-position-y: 30%;
+  background-position-x: 0%;
+
+  @media (max-width: 900px) {
+    background: #e2e6e5;
+  }
 
   #signup {
     margin-top: 75px;

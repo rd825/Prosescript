@@ -9,6 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #123;
+  font-weight: bold;
 }
 
 code {
@@ -32,5 +33,5 @@ h1,
 h4,
 p,
 li {
-  line-height: 1.25;
+  line-height: 1.5;
 }
