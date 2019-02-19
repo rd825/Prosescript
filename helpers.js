@@ -4,8 +4,10 @@ const Cryptr = require("cryptr");
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 const nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport("SMTP", {
-  service: "hotmail",
+let transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com",
+  port: 587,
+  secure: true, // upgrade later with STARTTLS
   auth: {
     user: "prosescript@outlook.com",
     pass: process.env.OUTLOOK_PW
