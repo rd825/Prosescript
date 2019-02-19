@@ -5,10 +5,14 @@ const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: "prosescriptapp@gmail.com",
-    pass: process.env.GMAIL_PW
+      type: 'OAuth2',
+      user: 'prosescriptapp@gmail.com',
+      serviceClient: '108844565183894248468',
+      privateKey: process.env.GMAIL_PW,
   }
 });
 
