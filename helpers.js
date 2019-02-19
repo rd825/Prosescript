@@ -4,15 +4,11 @@ const Cryptr = require("cryptr");
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+let transporter = nodemailer.createTransport("SMTP", {
+  service: "hotmail",
   auth: {
-      type: 'OAuth2',
-      user: 'prosescriptapp@gmail.com',
-      serviceClient: '108844565183894248468',
-      privateKey: process.env.GMAIL_PW,
+    user: "prosescript@outlook.com",
+    pass: process.env.OUTLOOK_PW
   }
 });
 
@@ -38,7 +34,7 @@ create = (user_id, access_token, mailObj) => {
       console.log(res.data);
       transporter.sendMail(
         {
-          from: "prosescriptapp@gmail.com",
+          from: "prosescript@outlook.com",
           to: `${mailObj.email}`,
           subject: "Your writing has been posted",
           html: `You can access your post here: ${res.data.data.url}`
@@ -53,7 +49,7 @@ create = (user_id, access_token, mailObj) => {
       console.log(err);
       transporter.sendMail(
         {
-          from: "prosescriptapp@gmail.com",
+          from: "prosescript@outlook.com",
           to: `${mailObj.email}`,
           subject: "Your writing has been posted",
           html: `We ran into an error publishing your post to Medium. Please try again.`
@@ -95,7 +91,7 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
               console.log(err);
               transporter.sendMail(
                 {
-                  from: "prosescriptapp@gmail.com",
+                  from: "prosescript@outlook.com",
                   to: `${mailObj.email}`,
                   subject: "Your writing has been posted",
                   html: `We ran into an error publishing your post to Medium. Please try again.`
@@ -111,7 +107,7 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
           console.log(err);
           transporter.sendMail(
             {
-              from: "prosescriptapp@gmail.com",
+              from: "prosescript@outlook.com",
               to: `${mailObj.email}`,
               subject: "Your writing has been posted",
               html: `We ran into an error publishing your post to Medium. Please try again.`
@@ -127,7 +123,7 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
       console.log(err);
       transporter.sendMail(
         {
-          from: "prosescriptapp@gmail.com",
+          from: "prosescript@outlook.com",
           to: `${mailObj.email}`,
           subject: "Your writing has been posted",
           html: `We ran into an error publishing your post to Medium. Please try again.`
