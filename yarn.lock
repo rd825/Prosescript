@@ -107,13 +107,6 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async@^2.5.0:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.2.tgz#18330ea7e6e313887f5d2f2a904bac6fe4dd5381"
-  integrity sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==
-  dependencies:
-    lodash "^4.17.11"
-
 atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
@@ -508,7 +501,7 @@ encodeurl@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
 
-encoding@^0.1.12, encoding@~0.1.12:
+encoding@>=0.1.4, encoding@~0.1.12:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
   integrity sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=
@@ -519,7 +512,7 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@^1.0.5, escape-string-regexp@~1.0.5:
+escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
@@ -610,7 +603,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@^3.0.0, extend@~3.0.0:
+extend@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
@@ -1246,25 +1239,24 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-mail-notifier@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/mail-notifier/-/mail-notifier-0.5.0.tgz#6dcfa1162b7dac6ede8ecfc76605e6f6dbd7ef2b"
-  integrity sha1-bc+hFit9rG7ejs/HZgXm9tvX7ys=
+mail-notifier@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/mail-notifier/-/mail-notifier-0.4.1.tgz#5df32888b8287f0424c12bd7c66c988da67306fe"
+  integrity sha1-XfMoiLgofwQkwSvXxmyYjaZzBv4=
   dependencies:
-    async "^2.5.0"
     debug "^2.2.0"
     imap "~0.8.9"
-    mailparser "0.6.2"
+    mailparser "~0.4"
 
-mailparser@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/mailparser/-/mailparser-0.6.2.tgz#03c486039bdf4df6cd3b6adcaaac4107dfdbc068"
-  integrity sha1-A8SGA5vfTfbNO2rcqqxBB9/bwGg=
+mailparser@~0.4:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/mailparser/-/mailparser-0.4.9.tgz#1d0a48d6faaaa2f09ac1398ed023d8ef8eb19e2b"
+  integrity sha1-HQpI1vqqovCawTmO0CPY746xnis=
   dependencies:
-    encoding "^0.1.12"
-    mime "^1.3.4"
-    mimelib "^0.3.0"
-    uue "^3.1.0"
+    encoding ">=0.1.4"
+    mime "*"
+    mimelib ">=0.2.17"
+    uue "~1.0.0"
 
 make-dir@^1.0.0:
   version "1.3.0"
@@ -1329,16 +1321,16 @@ mime-types@~2.1.18:
   dependencies:
     mime-db "~1.37.0"
 
+mime@*:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-2.4.0.tgz#e051fd881358585f3279df333fe694da0bcffdd6"
+  integrity sha512-ikBcWwyqXQSHKtciCcctu9YfPbFYZ4+gbHEmE0Q8jzcTYQg5dHCr3g2wwAZjPoJfQVXZq6KXAjpXOTf5/cjT7w==
+
 mime@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
-mime@^1.3.4:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
-  integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
-
-mimelib@^0.3.0:
+mimelib@>=0.2.17:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/mimelib/-/mimelib-0.3.1.tgz#787add2415d827acb3af6ec4bca1ea9596418853"
   integrity sha1-eHrdJBXYJ6yzr27EvKHqlZZBiFM=
@@ -2305,13 +2297,10 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uue@^3.1.0:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/uue/-/uue-3.1.2.tgz#e99368414e87200012eb37de4dbaebaa1c742ad2"
-  integrity sha512-axKLXVqwtdI/czrjG0X8hyV1KLgeWx8F4KvSbvVCnS+RUvsQMGRjx0kfuZDXXqj0LYvVJmx3B9kWlKtEdRrJLg==
-  dependencies:
-    escape-string-regexp "~1.0.5"
-    extend "~3.0.0"
+uue@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/uue/-/uue-1.0.0.tgz#213b9448b98b98b9d03caf601a223589bd886430"
+  integrity sha1-ITuUSLmLmLnQPK9gGiI1ib2IZDA=
 
 uuid@^3.3.2:
   version "3.3.2"

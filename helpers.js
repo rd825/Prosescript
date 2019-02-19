@@ -1,4 +1,3 @@
-require("dotenv").config();
 const axios = require("axios");
 const users = require("./db/userModel");
 const Cryptr = require("cryptr");
@@ -48,21 +47,7 @@ create = (user_id, access_token, mailObj) => {
         }
       );
     })
-    .catch(err => {
-      console.log(err);
-      transporter.sendMail(
-        {
-          from: "prosescript@outlook.com",
-          to: `${mailObj.email}`,
-          subject: "Your writing has been posted",
-          html: `We ran into an error publishing your post to Medium. Please try again.`
-        },
-        function(err, info) {
-          if (err) console.log(err);
-          else console.log(info);
-        }
-      );
-    });
+    .catch(err => console.log(err));
 };
 
 refresh = (refresh_token, client_id, client_secret, mailObj) => {
@@ -90,53 +75,11 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
               const decrypted_access = cryptr.decrypt(access_token);
               create(user_id, decrypted_access, mailObj);
             })
-            .catch(err => {
-              console.log(err);
-              transporter.sendMail(
-                {
-                  from: "prosescript@outlook.com",
-                  to: `${mailObj.email}`,
-                  subject: "Your writing has been posted",
-                  html: `We ran into an error publishing your post to Medium. Please try again.`
-                },
-                function(err, info) {
-                  if (err) console.log(err);
-                  else console.log(info);
-                }
-              );
-            });
+            .catch(err => console.log(err));
         })
-        .catch(err => {
-          console.log(err);
-          transporter.sendMail(
-            {
-              from: "prosescript@outlook.com",
-              to: `${mailObj.email}`,
-              subject: "Your writing has been posted",
-              html: `We ran into an error publishing your post to Medium. Please try again.`
-            },
-            function(err, info) {
-              if (err) console.log(err);
-              else console.log(info);
-            }
-          );
-        });
+        .catch(err => console.log(err));
     })
-    .catch(err => {
-      console.log(err);
-      transporter.sendMail(
-        {
-          from: "prosescript@outlook.com",
-          to: `${mailObj.email}`,
-          subject: "Your writing has been posted",
-          html: `We ran into an error publishing your post to Medium. Please try again.`
-        },
-        function(err, info) {
-          if (err) console.log(err);
-          else console.log(info);
-        }
-      );
-    });
+    .catch(err => console.log(err));
 };
 
 module.exports = { create, refresh };
