@@ -6,11 +6,14 @@ const nodemailer = require("nodemailer");
 
 let transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com",
+  secureConnection: false,
   port: 587,
-  secure: false, // upgrade later with STARTTLS
   auth: {
     user: "prosescript@outlook.com",
     pass: process.env.OUTLOOK_PW
+  },
+  tls: {
+    ciphers: "SSLv3"
   }
 });
 
