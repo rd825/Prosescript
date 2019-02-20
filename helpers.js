@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 let transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com",
   port: 587,
-  secure: true, // upgrade later with STARTTLS
+  secure: false, // upgrade later with STARTTLS
   auth: {
     user: "prosescript@outlook.com",
     pass: process.env.OUTLOOK_PW
@@ -75,11 +75,50 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
               const decrypted_access = cryptr.decrypt(access_token);
               create(user_id, decrypted_access, mailObj);
             })
-            .catch(err => console.log("Error - helpers line 78: " + err));
+            .catch(err => {
+              transporter.sendMail(
+                {
+                  from: "prosescript@outlook.com",
+                  to: `${mailObj.email}`,
+                  subject: "Something went wrong with your Medium post",
+                  html: `We ran into an error while trying to publish your post. Please give it another go.`
+                },
+                function(err, info) {
+                  if (err) console.log("Error - helpers line 45: " + err);
+                  else console.log(info);
+                }
+              );
+            });
         })
-        .catch(err => console.log("Error - helpers line 80: " + err));
+        .catch(err => {
+          transporter.sendMail(
+            {
+              from: "prosescript@outlook.com",
+              to: `${mailObj.email}`,
+              subject: "Something went wrong with your Medium post",
+              html: `We ran into an error while trying to publish your post. Please give it another go.`
+            },
+            function(err, info) {
+              if (err) console.log("Error - helpers line 45: " + err);
+              else console.log(info);
+            }
+          );
+        });
     })
-    .catch(err => console.log("Error - helpers line 82: " + err));
+    .catch(err => {
+      transporter.sendMail(
+        {
+          from: "prosescript@outlook.com",
+          to: `${mailObj.email}`,
+          subject: "Something went wrong with your Medium post",
+          html: `We ran into an error while trying to publish your post. Please give it another go.`
+        },
+        function(err, info) {
+          if (err) console.log("Error - helpers line 45: " + err);
+          else console.log(info);
+        }
+      );
+    });
 };
 
 module.exports = { create, refresh };
