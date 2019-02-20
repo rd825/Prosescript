@@ -34,7 +34,7 @@ const Container = styled.div`
       width: 60%;
 
       @media (max-width: 800px) {
-        width: 100%;
+        width: 100% !important;
         font-size: 15px;
       }
     }

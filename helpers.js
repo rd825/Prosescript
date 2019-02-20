@@ -42,12 +42,12 @@ create = (user_id, access_token, mailObj) => {
           html: `You can access your post here: ${res.data.data.url}`
         },
         function(err, info) {
-          if (err) console.log(err);
+          if (err) console.log("Error - helpers line 45: " + err);
           else console.log(info);
         }
       );
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error - helpers line 50: " + err));
 };
 
 refresh = (refresh_token, client_id, client_secret, mailObj) => {
@@ -75,11 +75,11 @@ refresh = (refresh_token, client_id, client_secret, mailObj) => {
               const decrypted_access = cryptr.decrypt(access_token);
               create(user_id, decrypted_access, mailObj);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log("Error - helpers line 78: " + err));
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("Error - helpers line 80: " + err));
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error - helpers line 82: " + err));
 };
 
 module.exports = { create, refresh };

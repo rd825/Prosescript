@@ -124,7 +124,7 @@ n.on("end", () => n.start()) // session closed
           create(user_id, decrypted_access, mailObj);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log('Line 127 of index.js: ' + err));
   })
   .start();
 
