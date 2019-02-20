@@ -26,7 +26,6 @@ server.get("/", (req, res) => res.send({ API: "live" }));
 // Authenticate a user on Medium via OAuth
 server.post("/api/auth", (req, res) => {
   const { code, email } = req.body;
-  console.log(req.body);
   axios({
     method: "post",
     url: "https://api.medium.com/v1/tokens",
@@ -38,8 +37,8 @@ server.post("/api/auth", (req, res) => {
     data: `code=${code}&client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&redirect_uri=${redirect_uri}`
   })
     .then(response1 => {
+      console.log("Expecting tokens and such: " + response1.data);
       const { access_token, refresh_token, expires_at } = response1.data;
-      console.log(response1.data);
       axios({
         method: "get",
         url: "https://api.medium.com/v1/me",
@@ -62,8 +61,6 @@ server.post("/api/auth", (req, res) => {
             refresh_token: cryptr.encrypt(refresh_token),
             expires_at: expires_at
           };
-
-          // add res.status.json to the catches
 
           users
             .getByUsername(username)
