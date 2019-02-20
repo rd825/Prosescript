@@ -12,7 +12,7 @@ const Container = styled.div`
     position: absolute;
     width: 100%;
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
       padding: 0 40px;
     }
 
@@ -22,7 +22,7 @@ const Container = styled.div`
       font-weight: bold;
       margin: 60px 0 50px;
 
-      @media (max-width: 800px) {
+      @media (max-width: 900px) {
         font-size: 25px;
         margin: 30px 0;
       }
@@ -33,7 +33,7 @@ const Container = styled.div`
       margin-bottom: 20px;
       width: 60%;
 
-      @media (max-width: 800px) {
+      @media (max-width: 900px) {
         width: 100% !important;
         font-size: 15px;
       }
@@ -60,7 +60,7 @@ const Container = styled.div`
         padding-left: 20px;
         margin-bottom: 20px;
 
-        @media (max-width: 800px) {
+        @media (max-width: 900px) {
           width: 100%;
           font-size: 15px;
         }

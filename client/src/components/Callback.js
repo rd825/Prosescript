@@ -4,6 +4,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import styled from "@emotion/styled";
 import Container from "./Container";
+import Status from "./Status";
 
 class Callback extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class Callback extends Component {
     this.state = {
       error: false,
       email: "",
-      success: false
+      success: false,
+      loading: false
     };
   }
 
@@ -36,6 +38,7 @@ class Callback extends Component {
     if (this.state.email === "") {
       alert("Please enter the email address you wish to use.");
     } else {
+      this.setState({ loading: true, success: false, error: false });
       axios
         .post("https://prosescript.herokuapp.com/api/auth", {
           code: values.code,
@@ -43,20 +46,23 @@ class Callback extends Component {
         })
         .then(res => {
           console.log(res.data);
-          this.setState({ email: "", success: true });
+          this.setState({
+            email: "",
+            loading: false,
+            success: true,
+            error: false
+          });
           console.log("then fired");
         })
         .catch(err => {
           console.log(err);
-          this.setState({ error: true });
+          this.setState({ loading: false, success: false, error: true });
         });
     }
   };
 
   render() {
-    if (this.state.success === true) {
-      return <Redirect to="/" />;
-    } else if (this.state.error) {
+    if (this.state.error) {
       return (
         <Container>
           <div id="error">
@@ -157,23 +163,24 @@ class Callback extends Component {
               get published!
             </h4>
 
-            <h4>
-              <mark>
-                Once you're successfully signed up, we'll redirect you back to
-                the homepage.
-              </mark>
-            </h4>
-
-            <Form onSubmit={this.submitHandler}>
-              <input
-                type="email"
-                name="email"
-                placeholder="Please enter your email here."
-                value={this.props.value}
-                onChange={this.changeHandler}
-              />
-              <input type="submit" value="Complete Signup" />
-            </Form>
+            {this.state.loading || this.state.success ? (
+              <Status loading={this.state.loading}>
+                {this.state.loading
+                  ? "We'll get you sorted momentarily. It may take a while to contact Medium's servers so please be patient."
+                  : "Great, you're all set! All you have to to do publish is email: prosescript (at) outlook (dot) com"}
+              </Status>
+            ) : (
+              <Form onSubmit={this.submitHandler}>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Please enter your email here."
+                  value={this.props.value}
+                  onChange={this.changeHandler}
+                />
+                <input type="submit" value="Complete Signup" />
+              </Form>
+            )}
           </div>
         </Container>
       );
@@ -184,14 +191,13 @@ class Callback extends Component {
 export default Callback;
 
 const Form = styled.form`
-  margin: 60px 0 50px;
+  margin: 30px 0 50px;
   font-family: "Lato", sans-serif;
   display: flex;
   flex-flow: column nowrap;
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     margin: 30px 0;
-    align-items: center;
   }
 
   input[type="email"] {
@@ -203,8 +209,9 @@ const Form = styled.form`
     font-size: 20px;
     height: 50px;
     width: 500px;
+    font-weight: bold;
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
       font-size: 15px;
       width: 100%;
     }
@@ -217,7 +224,7 @@ const Form = styled.form`
   }
 
   input[type="submit"] {
-    margin-top: 75px;
+    margin-top: 50px;
     width: 250px;
     border-radius: 50px;
     border: transparent;
@@ -226,6 +233,7 @@ const Form = styled.form`
     font-size: 16px;
     text-decoration: none;
     padding: 15px;
+    font-weight: bold;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
