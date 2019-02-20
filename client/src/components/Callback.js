@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import queryString from "query-string";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 import styled from "@emotion/styled";
 import Container from "./Container";
 import Status from "./Status";
