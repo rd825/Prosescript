@@ -5,7 +5,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Callback from './components/Callback';
 
-const clientId = '575987a2325a';
+const clientId = '910cc0297d37';
 const state = 'opensesame';
 const redirectUri = 'https://prosescript.netlify.com/callback'
 const url = `https://medium.com/m/oauth/authorize?client_id=${clientId}&scope=basicProfile,publishPost&state=${state}&response_type=code&redirect_uri=${redirectUri}`
