@@ -26,6 +26,7 @@ server.get("/", (req, res) => res.send({ API: "live" }));
 // Authenticate a user on Medium via OAuth
 server.post("/api/auth", (req, res) => {
   const { code, email } = req.body;
+  console.log(req.body);
   axios({
     method: "post",
     url: "https://api.medium.com/v1/tokens",
@@ -36,8 +37,9 @@ server.post("/api/auth", (req, res) => {
     },
     data: `code=${code}&client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&redirect_uri=${redirect_uri}`
   })
-    .then(response => {
-      const { access_token, refresh_token, expires_at } = response.data;
+    .then(response1 => {
+      const { access_token, refresh_token, expires_at } = response1.data;
+      console.log(response1.data);
       axios({
         method: "get",
         url: "https://api.medium.com/v1/me",
@@ -48,8 +50,9 @@ server.post("/api/auth", (req, res) => {
           "Accept-Charset": "utf-8"
         }
       })
-        .then(response => {
-          const { id, username, name } = response.data.data;
+        .then(response2 => {
+          const { id, username, name } = response2.data.data;
+          console.log(response2.data.data);
           const user = {
             name: name,
             email: email,
@@ -66,21 +69,35 @@ server.post("/api/auth", (req, res) => {
             .getByUsername(username)
             .then(exists => {
               if (exists) {
+                console.log("exists");
                 res.status(304).json({ message: "User already exists" });
               } else {
                 users
                   .insert(user)
-                  .then(response =>
-                    res.status(201).json({ message: "user created" })
-                  )
-                  .catch(err => res.status(500).json(err));
+                  .then(response3 => {
+                    console.log(response3);
+                    res.status(201).json({ message: "user created" });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json(err);
+                  });
               }
             })
-            .catch(err => res.status(404).json(err));
+            .catch(err => {
+              console.log(err);
+              res.status(404).json(err);
+            });
         })
-        .catch(err => res.status(401).json(err));
+        .catch(err => {
+          console.log(err);
+          res.status(401).json(err);
+        });
     })
-    .catch(err => res.status(401).json(err));
+    .catch(err => {
+      console.log(err);
+      res.status(401).json(err);
+    });
 });
 
 const n = notifier(imap);

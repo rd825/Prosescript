@@ -5,8 +5,6 @@ import styled from "@emotion/styled";
 import bg1 from "../assets/pen.jpg";
 
 const Home = props => {
-  const width = window.innerWidth;
-  console.log(width);
   return (
     <Container>
       <StyledHome id="home">
