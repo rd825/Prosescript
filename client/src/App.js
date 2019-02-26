@@ -12,15 +12,11 @@ const state = "opensesame";
 const redirectUri = "https://prosescript.netlify.com/callback";
 const url = `https://medium.com/m/oauth/authorize?client_id=${clientId}&scope=basicProfile,publishPost&state=${state}&response_type=code&redirect_uri=${redirectUri}`;
 
-ReactGA.initialize("UA-135248853-1", {
-  debug: false, // sends feedback to the console
-  titleCase: false,
-  userId: 135248853,
-  siteSpeedSampleRate: 100 // rate at which data is sent, default is 1
-});
-ReactGA.pageview(`${window.location.pathname}`);
-
 class App extends Component {
+  componentDidMount() {
+    ReactGA.pageview(window.location.pathname);
+  }
+
   render() {
     return (
       <div className="App">
